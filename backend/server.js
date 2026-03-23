@@ -7,7 +7,7 @@ const swaggerJsdoc = require('swagger-jsdoc');       // อ่าน JSDoc comme
 const swaggerUi    = require('swagger-ui-express');   // serve spec เป็น Interactive UI
 
 const app        = express();
-const PORT=process.env.BACKEND_PORT || 3001;
+const PORT=process.env.BACKEND_PORT || 5000;
 //const PORT       = 3001;
 // ─────────────────────────────────────────────────────────────
 // Swagger / OpenAPI Configuration
