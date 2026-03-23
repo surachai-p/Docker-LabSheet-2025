@@ -376,11 +376,89 @@ Docker Compose version v2.29.x          ← v2.25+ จะแสดง warning �
 git version 2.43.0
 ```
 </details>
-
+```
 > **📝 บันทึกผล**: 
-```
+
+1.Docker version 29.2.1, build a5c7197
+
+2.Docker Compose version v5.1.0
+
+3.git version 2.49.0.windows.1
+
+4.Client:
+ Version:    29.2.1
+ Context:    desktop-linux
+ Debug Mode: false
+ Plugins:
+  agent: create or run AI agents (Docker Inc.)
+    Version:  v1.29.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-agent.exe
+  ai: Docker AI Agent - Ask Gordon (Docker Inc.)
+    Version:  v1.19.0
+    Version:  v1.19.0
+    Version:  v1.19.0
+    Version:  v1.19.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+    Version:  v1.19.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+    Version:  v1.19.0
+    Version:  v1.19.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+    Version:  v1.19.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+    Version:  v1.19.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+    Version:  v1.19.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v1.19.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v1.19.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+    Version:  v1.19.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v1.19.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+    Version:  v1.19.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+  buildx: Docker Buildx (Docker Inc.)
+    Path:     C:\Program Files\Docker\cli-plugins\docker-ai.exe
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.32.1-desktop.1
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.32.1-desktop.1
+    Path:     C:\Program Files\Docker\cli-plugins\docker-buildx.exe
+    Version:  v0.32.1-desktop.1
+    Path:     C:\Program Files\Docker\cli-plugins\docker-buildx.exe
+  compose: Docker Compose (Docker Inc.)
+    Path:     C:\Program Files\Docker\cli-plugins\docker-buildx.exe
+  compose: Docker Compose (Docker Inc.)
+    Version:  v5.1.0
+  compose: Docker Compose (Docker Inc.)
+    Version:  v5.1.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-compose.exe
+    Version:  v5.1.0
+    Path:     C:\Program Files\Docker\cli-plugins\docker-compose.exe
+  debug: Get a shell into any image or container (Docker Inc.)
+    Path:     C:\Program Files\Docker\cli-plugins\docker-compose.exe
+  debug: Get a shell into any image or container (Docker Inc.)
+    Version:  0.0.47
+  debug: Get a shell into any image or container (Docker Inc.)
+    Version:  0.0.47
+    Version:  0.0.47
+    Path:     C:\Program Files\Docker\cli-plugins\docker-debug.exe
+
+    Path:     C:\Program Files\Docker\cli-plugins\docker-debug.exe
+
+
+USER@LAPTOP-UTVPS9CM MINGW64 ~/Desktop/1/Docker-LabSheet-2025 (main)
+$
+``
 บันทึกรูปภาพผลการตรวจสอบ version
-```
+
+![version](images/image.png)
 ---
 
 #### 1.2 Clone Repository
