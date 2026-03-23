@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+# booking-app-demo-2025
+=======
 # 🐋 Booking App Demo 2025 — Lab Series
 
 > **Full Stack Web Development with Docker & Docker Compose**
@@ -151,3 +154,4 @@ git --version             # git version 2.x.x
 **[🐋 เริ่มต้นทดลอง Lab 1 →](LAB_DOCKER_COMPOSE.md)**
 
 </div>
+>>>>>>> d5e83a35562b371c68ac38acfd80486ab5f0aa19
