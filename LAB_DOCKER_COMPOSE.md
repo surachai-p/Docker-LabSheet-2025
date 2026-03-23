@@ -379,7 +379,7 @@ git version 2.43.0
 
 > **📝 บันทึกผล**: 
 ```
-บันทึกรูปภาพผลการตรวจสอบ version
+![alt text](image.png)
 ```
 ---
 
@@ -493,7 +493,7 @@ a1b2c3d4e5f6   nginx:alpine   "/docker-entrypoint.…"   2 seconds ago  Up 2 sec
 
 **บันทึกผลการทดลอง**
 ```
-บันทึกรูปผลการทดลอง คำสั่ง docker ps
+![alt text](image-1.png)
 ```
 
 เปิด Browser ไปที่ **http://localhost:8080** ควรเห็นหน้า `Welcome to nginx!`
@@ -544,7 +544,7 @@ docker exec -it my-nginx sh
 **บันทึกผลการรันคำสั่ง docker exec -it และ ls /usr/share/nginx/html**
 
    ```bash
-   บันทึกรูปภาพที่นี่
+   ![alt text](image-2.png)
    ```
 </details>
 
@@ -564,7 +564,7 @@ docker stats my-nginx
 # กด Ctrl+C เพื่อออก
 ```
 
-> **📝 บันทึกผล**: Container ID คือ: `............` และ IP Address คือ: `............`
+> **📝 บันทึกผล**: Container ID คือ: `52306a8b4d08ce6718b5193e5fdac95aa9101c9cbf43f9a7ca0b01f877f5e6c4` และ IP Address คือ: `172.17.0.2`
 
 ---
 
@@ -623,7 +623,7 @@ exit
 
 **บันทึกรูปผลการทดลอง**
 ```text
-บันทึกรูปผลการทดลองที่นี่
+![alt text](image-5.png)
 ```
 ---
 
@@ -631,31 +631,36 @@ exit
 
 1. `docker ps` กับ `docker ps -a` ต่างกันอย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: `docker ps` เฉพาะ container ที่กำลังรัน
+   `docker ps` -a ทุก container (รวมที่หยุดแล้ว)
 
 2. ขนาดของ `nginx:alpine` image คือเท่าไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: 20MB
 
 3. flag `--rm` ใน `docker run` มีประโยชน์ในกรณีใด?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: --rm เหมาะกับ งานชั่วคราว / ทดลอง / ไม่ต้องเก็บ container
 
 4. `docker exec -it` ต่างจาก `docker run -it` อย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: `docker run -it` สร้าง + รัน container ใหม่
+   `docker run -it` เข้า container ที่กำลังรันอยู่
 
 5. ต้องการดูว่าในเครื่องมี image อะไรอยู่บ้าง จะเขียนคำสั่งอย่างไร
    ```bash
-   เขียนคำสั่งที่นี่
+   'docker images'
    ```
 6. ต้องการลบ image ชื่อ nginx:alpine จะต้องเขียนคำสั่งอย่างไร หากมีหลายขั้นตอนที่ต้องเขียน ให้เขียนลำดับคำสั่งให้ถูกต้อง
    ```bash
-   เขียนคำสั่งที่นี่
+   1. docker ps -a
+   2. docker stop <container_id>
+   3. docker rmi -f nginx:alpine
    ```
 7. เมื่อลบ image แล้วให้ทำการ pull image กลับมาเหมือนเดิม พร้อมทำการรัน container
    ```bash
-   เขียนคำสั่งที่นี่
+   1. docker pull nginx:alpine
+   2. docker run -d -p 80:80 --name my-nginx nginx:alpine
    ```
 ---
 
@@ -821,7 +826,7 @@ booking-backend    1.0    abc123def456   5 seconds ago   ~200MB
 ```
 </details>
 
-> **📝 บันทึกผล**: ขนาดของ booking-backend:1.0 คือ: `............` MB 
+> **📝 บันทึกผล**: ขนาดของ booking-backend:1.0 คือ: `183` MB 
 
 ---
 
@@ -858,17 +863,20 @@ docker rm backend
 ```
 บันทึกรูปผลการรัน curl http://localhost:5000
 ```
+![alt text](image-6.png)
 ---
 
 ### ❓ คำถามท้ายขั้นตอนที่ 3
 
 1. `booking-backend:1.0` คืออะไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ชื่อ image backend และ เวอร์ชันของ image
 
 2. ถ้าต้องการให้ ทดสอบ API ด้วย `curl http://localhost` ต้องทำอย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: 1.docker run -d -p 80:3000 --name booking-api booking-backend:1.0
+              2.docker ps
+              3.curl http://localhost
 
 ---
 
@@ -1021,7 +1029,7 @@ docker exec booking-frontend-test cat /etc/nginx/conf.d/nginx.conf
 docker stop booking-frontend-test && docker rm booking-frontend-test
 ```
 
-> **📝 บันทึกผล**: booking-frontend:1.0 ขนาด `............` MB | booking-backend:1.0 ขนาด `............` MB
+> **📝 บันทึกผล**: booking-frontend:1.0 ขนาด `92.9` MB | booking-backend:1.0 ขนาด `698` MB
 
 ---
 
@@ -1029,15 +1037,16 @@ docker stop booking-frontend-test && docker rm booking-frontend-test
 
 1. ขนาดของ `booking-frontend:1.0` เทียบกับ `booking-backend:1.0` ต่างกันอย่างไร? เพราะเหตุใด?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: `booking-frontend:1.0` = ไฟล์เว็บ (HTML CSS JS)
+      `booking-backend:1.0` = โปรแกรมที่ต้องรันหลังบ้านของเว็บ
 
 2. `location /api/` ใน nginx.conf ทำหน้าที่อะไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: คือ ตัวกลาง ที่เชื่อม frontend กับ backend
 
 3. ทำไม Frontend Container ถึงใช้ชื่อ `backend` ในการ Proxy ได้?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: Docker มี DNS ภายใน network ที่ทำให้ container เรียกกันด้วยชื่อได้
 
 ---
 
@@ -1154,15 +1163,16 @@ frontend
 
 1. docker-compose.yml คืออะไร มีประโยชน์อย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ไฟล์ควบคุมระบบหลาย container
 
 2. `restart: unless-stopped` หมายความว่าอย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ป็นการตั้งค่าใน docker-compose.yml เพื่อกำหนดว่า container ควร restart อัตโนมัติเมื่อใด
 
 3. Named Volume `sqlite_data` ต่างจาก Bind Mount อย่างไร? และทำไมต้องใช้กับ SQLite?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: `sqlite_data` = เป็นพื้นที่เก็บข้อมูลที่ Docker
+   Bind Mount = เอาโฟลเดอร์จากเครื่องเราไปผูกกับ container
 
 ---
 
@@ -1271,7 +1281,7 @@ curl -X POST http://localhost:5000/api/bookings -H "Content-Type: application/js
 
 **บันทึกรูปผลการทดลอง**
 ```
-บันทึกรูปที่นี่
+![alt text](image-4.png)
 ```
 
 ---
@@ -1314,8 +1324,8 @@ docker network inspect booking-network \
 ```
 
 > **📝 บันทึกผลการทดลอง**:
-> - IP ของ frontend: `............`
-> - IP ของ backend: `............`
+> - IP ของ frontend: `172.18.0.3/16`
+> - IP ของ backend: `172.18.0.2/16`
 
 
 ---
@@ -1342,14 +1352,15 @@ docker compose events --json 2>/dev/null | head -20
 
 1. `docker compose ps` แสดงสถานะ Service อย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: `docker compose ps` = container ทั้งระบบ
+   `Service` = เฉพาะ service ใน compose
 
 2. IP Address ของแต่ละ Container ในผลจาก `docker network inspect` คืออะไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: IP ภายใน (Internal IP)” ของ container ใน network นั้น
 
 3. SQLite database file (`booking.db`) ถูกสร้างใน Path ใดภายใน Container?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ไฟล์ booking.db จะถูกสร้างใน path ภายใน container
 
 ---
