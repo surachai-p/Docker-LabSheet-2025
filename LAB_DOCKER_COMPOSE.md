@@ -361,7 +361,7 @@ docker volume ls                 แสดง Volume ทั้งหมด
 #### 1.1 ตรวจสอบการติดตั้ง
 **พิมพ์ และรันครั้งละ 1 คำสั่งด้วยตนเอง**
 ```bash
-docker --version
+docke --version
 docker compose version
 git --version
 docker info | head -20
@@ -379,7 +379,7 @@ git version 2.43.0
 
 > **📝 บันทึกผล**: 
 ```
-บันทึกรูปภาพผลการตรวจสอบ version
+บันทึกรูปภาพผลการตรวจสอบ version!![alt text](image.png)
 ```
 ---
 
@@ -493,7 +493,7 @@ a1b2c3d4e5f6   nginx:alpine   "/docker-entrypoint.…"   2 seconds ago  Up 2 sec
 
 **บันทึกผลการทดลอง**
 ```
-บันทึกรูปผลการทดลอง คำสั่ง docker ps
+บันทึกรูปผลการทดลอง คำสั่ง docker ps![alt text](image-1.png)
 ```
 
 เปิด Browser ไปที่ **http://localhost:8080** ควรเห็นหน้า `Welcome to nginx!`
@@ -501,6 +501,12 @@ a1b2c3d4e5f6   nginx:alpine   "/docker-entrypoint.…"   2 seconds ago  Up 2 sec
 **อธิบาย แต่ละส่วนของคำสั่ง docker run -d --name my-nginx -p 8080:80 nginx:alpine**
 ```text
 อธิบายคำสั่งที่นี่
+
+docker run      : คำสั่งสำหรับสร้างและเริ่มต้นรัน Container ใหม่
+-d              : (Detached mode) สั่งให้ Container รันทำงานอยู่เบื้องหลัง (Background) เพื่อให้เราใช้งาน Terminal ต่อได้
+--name my-nginx : เป็นการตั้งชื่อให้กับ Container นี้ว่า "my-nginx" เพื่อให้ง่ายต่อการจัดการ
+-p 8080:80      : (Port mapping) นำ Port 8080 ของเครื่องเรา (Host) ไปเชื่อมต่อกับ Port 80 ภายใน Container
+nginx:alpine    : ระบุ Image ที่จะใช้ โดยใช้ "nginx" เวอร์ชัน "alpine" (Linux เวอร์ชันที่กินพื้นที่น้อยและน้ำหนักเบา)
 
 ```
 
@@ -564,7 +570,7 @@ docker stats my-nginx
 # กด Ctrl+C เพื่อออก
 ```
 
-> **📝 บันทึกผล**: Container ID คือ: `............` และ IP Address คือ: `............`
+> **📝 บันทึกผล**: Container ID คือ: `37fc1fecee0d` และ IP Address คือ: `172.17.0.2`
 
 ---
 
