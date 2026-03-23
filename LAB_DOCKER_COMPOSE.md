@@ -380,7 +380,7 @@ git version 2.43.0
 > **📝 บันทึกผล**: 
 ```
 บันทึกรูปภาพผลการตรวจสอบ version
-```
+```![alt text](image.png)
 ---
 
 #### 1.2 Clone Repository
