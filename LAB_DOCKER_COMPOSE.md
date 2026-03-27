@@ -1271,6 +1271,7 @@ curl -X POST http://localhost:5000/api/bookings -H "Content-Type: application/js
 
 **บันทึกรูปผลการทดลอง**
 ```
+```
 ![alt text](images/นายทดสอบ.png)
 ---
 
