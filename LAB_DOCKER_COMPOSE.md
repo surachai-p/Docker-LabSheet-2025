@@ -253,7 +253,7 @@ volumes:
     driver: local         # ใช้ local storage (default)
     name: booking-sqlite-data   # ชื่อที่แสดงใน docker volume ls
 ```
-
+f
 ---
 
 #### Volume กับ SQLite ใน Booking App
@@ -381,6 +381,7 @@ git version 2.43.0
 ```
 บันทึกรูปภาพผลการตรวจสอบ version
 ```
+![alt text](Result-images/R-01.png)
 ---
 
 #### 1.2 Clone Repository
@@ -484,7 +485,7 @@ docker ps
 
 <details>
 <summary>✅ ผลลัพธ์ที่คาดหวัง</summary>
-
+D:\SIET\SoftDev 1\LAB Docker\Docker-LabSheet-2025\Result-images\R-02.png
 ```
 CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS        PORTS
 a1b2c3d4e5f6   nginx:alpine   "/docker-entrypoint.…"   2 seconds ago  Up 2 seconds  0.0.0.0:8080->80/tcp
@@ -493,7 +494,7 @@ a1b2c3d4e5f6   nginx:alpine   "/docker-entrypoint.…"   2 seconds ago  Up 2 sec
 
 **บันทึกผลการทดลอง**
 ```
-บันทึกรูปผลการทดลอง คำสั่ง docker ps
+![2](Result-images/R-02.png)
 ```
 
 เปิด Browser ไปที่ **http://localhost:8080** ควรเห็นหน้า `Welcome to nginx!`
