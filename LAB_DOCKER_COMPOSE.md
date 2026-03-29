@@ -675,7 +675,7 @@ exit
    docker images
    ```
 6. ต้องการลบ image ชื่อ nginx:alpine จะต้องเขียนคำสั่งอย่างไร หากมีหลายขั้นตอนที่ต้องเขียน ให้เขียนลำดับคำสั่งให้ถูกต้อง
-  ```bash
+   ```bash
     docker rm -f my-nginx
     docker rmi nginx:alpine
     ``` 
