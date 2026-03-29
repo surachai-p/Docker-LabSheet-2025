@@ -493,15 +493,18 @@ a1b2c3d4e5f6   nginx:alpine   "/docker-entrypoint.…"   2 seconds ago  Up 2 sec
 
 **บันทึกผลการทดลอง**
 ```
-บันทึกรูปผลการทดลอง คำสั่ง docker ps
+![alt text](image-1.png)
 ```
 
 เปิด Browser ไปที่ **http://localhost:8080** ควรเห็นหน้า `Welcome to nginx!`
 
 **อธิบาย แต่ละส่วนของคำสั่ง docker run -d --name my-nginx -p 8080:80 nginx:alpine**
 ```text
-อธิบายคำสั่งที่นี่
-
+docker run คำสั่งให้ Docker สร้างและเริ่มการทำงานของ container ใหม่
+-d คือ Detached Mode คือการสั่งให้ Container ทำงานในพื้นหลัง เราสามารถใช้ Terminal ต่อได้โดยที่ Container ไม่ปิดตัวลง
+--name my-nginx เป็นการตั้งชื่อให้ Container ว่า my-nginx
+-p 8080:80 การทำ Port mapping เพื่อเชื่อมโลกภายนอกกับ Container 8080 คือพอร์ตบนเครื่อง 80 คือพอร์ต Service ใน Container
+nginx:alpine คือชื่อของ image ที่จะนำมาใช้ nginx คือ Software Web Server ,alpine คือ Tag ของ Images ที่เน้นขนาดเล็กพิเศษ
 ```
 
 
@@ -544,7 +547,7 @@ docker exec -it my-nginx sh
 **บันทึกผลการรันคำสั่ง docker exec -it และ ls /usr/share/nginx/html**
 
    ```bash
-   บันทึกรูปภาพที่นี่
+   ![alt text](image-2.png)
    ```
 </details>
 
@@ -564,7 +567,7 @@ docker stats my-nginx
 # กด Ctrl+C เพื่อออก
 ```
 
-> **📝 บันทึกผล**: Container ID คือ: `............` และ IP Address คือ: `............`
+> **📝 บันทึกผล**: Container ID คือ: `0438f77f4ec7e12e9c73377701c040d5b06328d72d4d47ef094d79fa974a098a` และ IP Address คือ: `172.17.0.2`
 
 ---
 
