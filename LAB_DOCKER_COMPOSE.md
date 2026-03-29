@@ -377,11 +377,11 @@ git version 2.43.0
 ```
 </details>
 
-> **📝 บันทึกผล**: 
+> **📝 บันทึกผล**:
+![alt text](image.png) 
 ```
-บันทึกรูปภาพผลการตรวจสอบ version
+
 ```
----
 
 #### 1.2 Clone Repository
 
