@@ -652,26 +652,15 @@ exit
    > _คำตอบ_: docker run -it คือการ สร้างและเริ่มรัน Container ใหม่ จาก Image ส่วน docker exec -it คือการ สั่งงานเข้าไปยัง Container ที่รันอยู่แล้ว เพื่อเข้าไปใช้งาน Shell หรือรันคำสั่งเพิ่มเติมภายในนั้น
 
 5. ต้องการดูว่าในเครื่องมี image อะไรอยู่บ้าง จะเขียนคำสั่งอย่างไร
-   ```bash
-docker images
-# หรือ
-docker image ls
-   ```
+> _คำตอบ_:docker images หรือ docker image ls
 6. ต้องการลบ image ชื่อ nginx:alpine จะต้องเขียนคำสั่งอย่างไร หากมีหลายขั้นตอนที่ต้องเขียน ให้เขียนลำดับคำสั่งให้ถูกต้อง
-   ```bash
-# 1. ลบ Container ที่ใช้งาน Image นี้อยู่ (ถ้ามี)
-docker rm -f my-nginx
-# 2. ลบ Image nginx:alpine
+> _คำตอบ_: 1. ลบ Container ที่ใช้งาน Image นี้อยู่ (ถ้ามี)
+docker rm -f my-nginx 2. ลบ Image nginx:alpine
 docker rmi nginx:alpine
-   ```
 7. เมื่อลบ image แล้วให้ทำการ pull image กลับมาเหมือนเดิม พร้อมทำการรัน container
-   ```bash
-# 1. Pull image กลับมา
-docker pull nginx:alpine
-
-# 2. รัน container ใหม่ (ตัวอย่างการรันแบบพื้นฐาน)
+> _คำตอบ_: 1. Pull image กลับมา
+docker pull nginx:alpine 2. รัน container ใหม่ (ตัวอย่างการรันแบบพื้นฐาน)
 docker run -d --name my-nginx -p 8080:80 nginx:alpine
-   ```
 ---
 
 ### 🔵 ขั้นตอนที่ 3: เขียน Dockerfile สำหรับ Backend
