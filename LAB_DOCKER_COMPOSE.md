@@ -548,7 +548,7 @@ docker exec -it my-nginx sh
 **บันทึกผลการรันคำสั่ง docker exec -it และ ls /usr/share/nginx/html**
 
    ```bash
-   บันทึกรูปภาพที่นี่
+  ![alt text](image-4.png) ![ ![alt text](image-6.png)](image-5.png)
    ```
 </details>
 
@@ -568,7 +568,7 @@ docker stats my-nginx
 # กด Ctrl+C เพื่อออก
 ```
 
-> **📝 บันทึกผล**: Container ID คือ: `............` และ IP Address คือ: `............`
+> **📝 บันทึกผล**: Container ID คือ: `6c3f8efaf34e` และ IP Address คือ: `172.17.0.2`
 
 ---
 
