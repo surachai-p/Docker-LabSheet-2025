@@ -492,7 +492,7 @@ a1b2c3d4e5f6   nginx:alpine   "/docker-entrypoint.…"   2 seconds ago  Up 2 sec
 </details>
 
 **บันทึกผลการทดลอง**
-```![alt text](image-2.png)
+```Docker-LabSheet-2025/image-2.png
 
 ```
 
