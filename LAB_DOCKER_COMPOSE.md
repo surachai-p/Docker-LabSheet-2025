@@ -492,7 +492,7 @@ a1b2c3d4e5f6   nginx:alpine   "/docker-entrypoint.…"   2 seconds ago  Up 2 sec
 </details>
 
 **บันทึกผลการทดลอง**
-![alt text](image-3.png)
+![alt text](image-4.png)
 
 เปิด Browser ไปที่ **http://localhost:8080** ควรเห็นหน้า `Welcome to nginx!`
 
