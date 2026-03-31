@@ -1101,7 +1101,7 @@ docker exec booking-frontend-test cat /etc/nginx/conf.d/nginx.conf
 docker stop booking-frontend-test && docker rm booking-frontend-test
 ```
 
-> **📝 บันทึกผล**: booking-frontend:1.0 ขนาด `............` MB | booking-backend:1.0 ขนาด `............` MB
+> **📝 บันทึกผล**: booking-frontend:1.0 ขนาด `31` MB | booking-backend:1.0 ขนาด `178` MB
 
 ---
 
@@ -1109,15 +1109,55 @@ docker stop booking-frontend-test && docker rm booking-frontend-test
 
 1. ขนาดของ `booking-frontend:1.0` เทียบกับ `booking-backend:1.0` ต่างกันอย่างไร? เพราะเหตุใด?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: โดยปกติแล้ว booking-frontend:1.0 จะมีขนาดใหญ่กว่า booking-backend:1.0 อย่างมาก (มักจะต่างกันหลายเท่าตัว) แม้ว่าทั้งคู่จะเป็นแอปพลิเคชัน Node.js เหมือนกันก็ตามครับ
+
+เหตุผลหลักที่ทำให้ขนาดต่างกัน:
+1. ความซับซ้อนของ Dependencies (node_modules)
+Frontend: มักใช้ Framework เช่น React, Vue หรือ Next.js ซึ่งมี "ของแถม" เยอะมาก ทั้งตัวช่วยสร้าง UI, ตัวจัดการ State, ระบบ Routing และเครื่องมือสำหรับ Compile โค้ด (เช่น Webpack, Vite, Babel) ทำให้โฟลเดอร์ node_modules บวมขึ้นอย่างรวดเร็ว
+
+Backend: หากเป็น API ขนาดเล็กที่ใช้ Express และ SQLite ตามที่คุณทำ จะมี Library ที่จำเป็นต้องใช้เพียงไม่กี่ตัว ขนาดจึงเบากว่ามาก
+
+2. สภาพแวดล้อมในการทำงาน (Runtime vs. Build Tooling)
+Frontend: ในขั้นตอนการสร้าง (Build) จำเป็นต้องใช้เครื่องมือหนักๆ ในการแปลงโค้ด Modern JS ให้กลายเป็นไฟล์ Static (HTML/CSS/JS) ซึ่งถ้าเราไม่ได้ใช้เทคนิค Multi-stage Build เครื่องมือเหล่านี้จะถูกขังอยู่ใน Image สุดท้ายด้วย
+
+Backend: มักจะรันโค้ดตรงๆ ผ่าน Node.js Runtime ได้เลย ไม่ต้องผ่านกระบวนการแปลงไฟล์ที่ซับซ้อนเท่าฝั่งหน้าบ้าน
+
+3. Base Image ที่ใช้
+หากฝั่ง Backend ใช้ Base Image แบบ Alpine (เช่น node:20-alpine) จะมีขนาดเริ่มต้นเพียงประมาณ 50MB
+
+แต่ถ้าฝั่ง Frontend ไม่ได้ระบุว่าเป็น Alpine หรือใช้ Image มาตรฐานตัวเต็ม ขนาดเริ่มต้นอาจพุ่งไปถึง 300MB - 900MB ตั้งแต่ยังไม่ได้เริ่มลงโปรแกรมเลยครับ
 
 2. `location /api/` ใน nginx.conf ทำหน้าที่อะไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ใน nginx.conf ส่วนของ location /api/ ทำหน้าที่เป็น "พนักงานแยกเส้นทาง" (Reverse Proxy) เพื่อส่งต่อคำขอ (Request) ไปยังเครื่องต้นทางที่ถูกต้องครับ
+
+หน้าที่หลักของมันมี 3 อย่าง:
+1. การทำ Reverse Proxy (ส่งต่อคำขอ)
+เมื่อมี User เรียกใช้งานผ่าน Browser มาที่ http://localhost/api/users ตัว Nginx จะดูที่ Path ว่าขึ้นต้นด้วย /api/ หรือไม่? ถ้าใช่ มันจะส่งต่อนิ้วไปที่ Backend Service (เช่น http://backend:5000) ทันที
+
+ประโยชน์: User ไม่ต้องรู้ว่า Backend จริงๆ อยู่ที่ไหน หรือรัน Port อะไร รู้แค่ว่าเรียกผ่าน Nginx (Port 80) ที่เดียวจบ
+
+2. การจัดการเรื่อง CORS (Cross-Origin Resource Sharing)
+เนื่องจาก Frontend และ Backend รันอยู่คนละที่ (คนละ Port/Service) ปกติ Browser จะสั่งบล็อกการดึงข้อมูล แต่เมื่อเราใช้ Nginx มาบังหน้า (Proxy) ทั้งคู่จะเสมือนรันอยู่บน Domain และ Port เดียวกัน ทำให้ปัญหาเรื่อง CORS หมดไปโดยไม่ต้องแก้ Code ใน Backend เลยครับ
+
+3. การตัดหรือจัดการ Path (Rewriting)
+บางครั้งเราตั้งค่าให้ Nginx ตัดคำว่า /api ออกก่อนส่งไปหา Backend (ถ้า Backend ไม่ได้เขียนรอรับ Path /api) หรือเติม Path บางอย่างเข้าไปโดยอัตโนมัติ
 
 3. ทำไม Frontend Container ถึงใช้ชื่อ `backend` ในการ Proxy ได้?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: สาเหตุที่ Frontend (หรือ Nginx) สามารถเรียกใช้ชื่อ backend ได้โดยตรง เป็นเพราะคุณสมบัติที่เรียกว่า Docker Embedded DNS ครับ
+
+1. ระบบ DNS ภายในของ Docker
+เมื่อเราใช้งาน Docker Compose หรือสร้าง User-defined Network ขึ้นมา Docker จะสร้างระบบจัดการชื่อโดเมน (DNS) ให้โดยอัตโนมัติ
+
+ชื่อ Service = ชื่อ Domain: ทุกตัวที่อยู่ใน Network เดียวกัน จะสามารถ "คุย" กันได้ด้วยชื่อ Service ที่เราตั้งไว้ในไฟล์ docker-compose.yml
+
+ตัวอย่าง: หากคุณตั้งชื่อ Service ว่า backend ในไฟล์ Compose ตัว Docker Engine จะทำหน้าที่เหมือนสมุดโทรศัพท์ เมื่อ Nginx ถามหา http://backend ตัว Docker DNS จะตอบกลับเป็น IP Address จริง ของ Container นั้นให้ทันที
+
+2. ประโยชน์ของการใช้ชื่อแทน IP
+IP ไม่คงที่: ทุกครั้งที่ Restart หรือลบ Container แล้วสร้างใหม่ IP Address มักจะเปลี่ยนไปเรื่อยๆ (เช่น จาก 172.18.0.3 เป็น 172.18.0.5)
+
+ชื่อคงที่เสมอ: ไม่ว่า IP จะเปลี่ยนไปกี่ครั้ง แต่ชื่อ backend จะยังคงชี้ไปยัง Container ที่ถูกต้องเสมอ ทำให้เราไม่ต้องตามไปแก้ไฟล์ nginx.conf บ่อยๆ
 
 ---
 
@@ -1234,15 +1274,24 @@ frontend
 
 1. docker-compose.yml คืออะไร มีประโยชน์อย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: docker-compose.yml คือไฟล์ที่ใช้สำหรับ "นิยาม (Define) และรัน" แอปพลิเคชันที่ประกอบด้วยหลายๆ Container พร้อมกัน โดยเขียนอยู่ในรูปแบบภาษา YAML ซึ่งอ่านง่ายและเป็นระเบียบครับ
+
+ประโยชน์ของ docker-compose.yml
+จัดการหลาย Container ในคำสั่งเดียว: แทนที่คุณจะต้องพิมพ์ docker run ยาวๆ ทีละตัวสำหรับ Database, Backend และ Frontend คุณแค่พิมพ์ docker compose up คำสั่งเดียว ระบบจะรันทุกอย่างให้ตามที่เขียนไว้ในไฟล์
+
+บันทึกการตั้งค่าไว้เป็นลายลักษณ์อักษร: ทุกการตั้งค่า เช่น การ Map Port (-p), การทำ Volume (-v), และการตั้งค่า Environment (-e) จะถูกบันทึกไว้ในไฟล์นี้ ไม่ต้องกลัวลืมคำสั่งรัน
+
+สร้าง Network ให้อัตโนมัติ: Docker Compose จะสร้าง Network วงเดียวกันให้ทุก Service ในไฟล์ ทำให้พวกมันคุยกันได้ผ่าน "ชื่อ Service" (เช่น Backend ต่อไปที่ DB โดยใช้ชื่อ db ได้เลย ไม่ต้องใช้ IP)
+
+Environment Isolation: สามารถจำลองสภาพแวดล้อมที่เหมือนกันเป๊ะๆ ให้กับทีมพัฒนาคนอื่นๆ หรือรันบน Server จริงได้เพียงแค่ส่งไฟล์นี้ไป
 
 2. `restart: unless-stopped` หมายความว่าอย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: restart: unless-stopped คือ นโยบายการเริ่มใหม่ (Restart Policy) ของ Container ที่ออกแบบมาให้สมดุลที่สุดสำหรับการใช้งานทั่วไป มีความหมายตรงตัวคือ:"ให้ Docker สั่ง Restart Container นี้โดยอัตโนมัติเสมอ ยกเว้นแต่ว่าเจ้าของเครื่อง (เรา) จะเป็นคนสั่ง Stop มันเองด้วยมือ"รายละเอียดการทำงานถ้า Container ล่ม (Crash): Docker จะสั่ง Restart ให้ใหม่ทันทีถ้า Restart เครื่อง Server: เมื่อเครื่องเปิดกลับมาใหม่ Docker Daemon จะสั่งให้ Container นี้รันขึ้นมาเองโดยอัตโนมัติถ้าเราสั่ง docker stop: Docker จะ ไม่ สั่งรันใหม่จนกว่าเราจะสั่ง docker start อีกครั้ง (นี่คือจุดที่ต่างจาก always)เปรียบเทียบกับนโยบายอื่นๆนโยบายการทำงานno (Default)ไม่สั่ง Restart ใหม่ในทุกกรณีon-failureRestart เฉพาะตอนที่แอปพัง (Exit code ไม่ใช่ 0)alwaysRestart ตลอดเวลา แม้เราจะสั่ง Stop ไปแล้ว เมื่อเปิดเครื่องใหม่มันก็จะโผล่มาอีกunless-stoppedRestart ตลอดเวลา "ยกเว้น" เราจะสั่งหยุดมันเองก่อนปิดเครื่อง/ปิด Service
 
 3. Named Volume `sqlite_data` ต่างจาก Bind Mount อย่างไร? และทำไมต้องใช้กับ SQLite?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ในการจัดการข้อมูลใน Docker ทั้ง Named Volume และ Bind Mount ต่างก็มีหน้าที่เก็บรักษาข้อมูลไม่ให้หายไปเมื่อ Container ถูกลบ แต่มีวิธีจัดการและจุดประสงค์ที่ต่างกันชัดเจนครับ1. ความแตกต่างที่สำคัญคุณสมบัติNamed Volume (sqlite_data)Bind Mount (./data:/app/data)การจัดเก็บDocker เป็นคนจัดการ (อยู่ใน /var/lib/docker/volumes/)เราเป็นคนกำหนด Path เองในเครื่อง (Host Machine)ความสะดวกไม่ต้องกังวลเรื่อง Path ในเครื่อง ย้ายเครื่องง่ายกว่าเข้าถึงไฟล์ได้ง่ายจาก File Explorer/Finder ในเครื่องเราสิทธิ์การเข้าถึงDocker จัดการ Permission ให้เสร็จสรรพมักมีปัญหาเรื่อง Permission ระหว่าง OS เครื่องเรากับ Linux ใน Dockerความสะอาดแยกขาดจากไฟล์โปรเจกต์ ไม่ปนกับ Source Codeปนอยู่กับโฟลเดอร์งานของเรา
 
 ---
 
@@ -1422,14 +1471,47 @@ docker compose events --json 2>/dev/null | head -20
 
 1. `docker compose ps` แสดงสถานะ Service อย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ข้อมูลที่ docker compose ps แสดง NAME	ชื่อของ Container (มักจะตามด้วยชื่อโปรเจกต์และลำดับตัวเลข)
+IMAGE	ชื่อ Image ที่ Service นั้นใช้งานอยู่
+COMMAND	คำสั่งหรือสคริปต์ที่รันอยู่ภายใน Container
+SERVICE	ชื่อ Service ที่เราตั้งไว้ในไฟล์ docker-compose.yml
+STATUS	สถานะปัจจุบัน เช่น running, exited, restarting
+PORTS	การเชื่อมต่อ Port ระหว่างเครื่อง Host กับ Container
 
 2. IP Address ของแต่ละ Container ในผลจาก `docker network inspect` คืออะไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ในผลลัพธ์ของคำสั่ง docker network inspect [network_name] ตัว IP Address ของแต่ละ Container คือที่อยู่เครือข่ายจำลอง (Virtual IP) ที่ Docker ออกให้เพื่อให้ Container สามารถคุยกันเองได้ภายในวง Network นั้นครับ
+
+คุณสามารถหาดูได้ในส่วนของ JSON ที่ระบุว่า "Containers": { ... } ซึ่งจะมีรายละเอียดดังนี้:
+
+ส่วนประกอบสำคัญใน Inspect
+ภายใต้หัวข้อ Containers คุณจะเห็นข้อมูลรายตัวดังนี้:
+
+IPv4Address: นี่คือ IP จริงที่ Container ใช้สื่อสาร (เช่น 172.18.0.2/16)
+
+Name: ชื่อของ Container นั้นๆ
+
+EndpointID: รหัสประจำจุดเชื่อมต่อของ Container กับ Network นี้
+
+MacAddress: ที่อยู่ทางกายภาพจำลอง (MAC Address) ของ Interface นั้น
+
+ลักษณะเฉพาะของ IP ใน Docker Network
+เป็น Private IP: โดยปกติจะขึ้นต้นด้วย 172.x.x.x ซึ่งเป็นวงภายในเครื่อง Host เท่านั้น โลกภายนอกจะมองไม่เห็น IP นี้โดยตรง (ต้องผ่านการทำ Port Mapping -p)
+
+เปลี่ยนแปลงได้ (Dynamic): หากคุณลบ Container แล้วสร้างใหม่ หรือ Restart เครื่อง IP นี้อาจจะเปลี่ยนไปได้ (ยกเว้นจะกำหนดแบบ Static)
+
+ใช้สื่อสารระหว่างกัน: ถ้า Container A และ B อยู่ใน Network เดียวกัน พวกมันสามารถใช้ IP เหล่านี้คุยกันได้โดยตรง (หรือใช้ชื่อ Container แทนก็ได้ถ้าเป็น User-defined network)
 
 3. SQLite database file (`booking.db`) ถูกสร้างใน Path ใดภายใน Container?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: เหตุผลและที่มาของ Path นี้:
+การกำหนด Working Directory (WORKDIR /app):
+คำสั่งนี้ระบุว่าโฟลเดอร์หลักที่แอปทำงานคือ /app
+
+การสร้างโฟลเดอร์ (RUN mkdir -p /app/data):
+มีการเตรียมโฟลเดอร์ชื่อ data ไว้ภายใต้ /app เพื่อรอรับไฟล์ Database
+
+การประกาศ Environment Variable (ENV DB_PATH=/app/data/booking.db):
+บรรทัดนี้ใน Dockerfile เป็นตัวกำหนด Path เต็ม ที่แอป Node.js ของคุณจะใช้ในการเขียนไฟล์ SQLite ลงไปครับ
 
 ---
