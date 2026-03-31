@@ -1029,7 +1029,7 @@ docker exec booking-frontend-test cat /etc/nginx/conf.d/nginx.conf
 docker stop booking-frontend-test && docker rm booking-frontend-test
 ```
 
-> **📝 บันทึกผล**: booking-frontend:1.0 ขนาด `............` MB | booking-backend:1.0 ขนาด `............` MB
+> **📝 บันทึกผล**: booking-frontend:1.0 ขนาด `698` MB | booking-backend:1.0 ขนาด `92.9` MB
 
 ---
 
@@ -1037,15 +1037,15 @@ docker stop booking-frontend-test && docker rm booking-frontend-test
 
 1. ขนาดของ `booking-frontend:1.0` เทียบกับ `booking-backend:1.0` ต่างกันอย่างไร? เพราะเหตุใด?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: โดยปกติ Frontend image จะมีขนาดเล็กกว่า Backend image เนื่องจาก Frontend (เช่น React หรือ Vue) หลังจากผ่านกระบวนการ Build แล้วจะได้เพียงไฟล์ Static (HTML, CSS, JS) ที่รันบนเว็บเซิร์ฟเวอร์ขนาดเบาอย่าง Nginx ในขณะที่ Backend ต้องรวมสภาพแวดล้อมในการรัน (Runtime), ไลบรารีเสริม และ Dependencies ต่าง ๆ ที่จำเป็นต่อการทำงานของระบบเซิร์ฟเวอร์ไว้ทั้งหมด
 
 2. `location /api/` ใน nginx.conf ทำหน้าที่อะไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ทำหน้าที่เป็น การกำหนดเส้นทาง (Routing) โดยบอกให้ Nginx คอยดักจับ Request ใดก็ตามที่ส่งมายัง Path ที่ขึ้นต้นด้วย /api/ เพื่อส่งต่อไปยังเซิร์ฟเวอร์เป้าหมาย (เช่น Backend) ตามที่ระบุไว้ในคำสั่ง Proxy Pass
 
 3. ทำไม Frontend Container ถึงใช้ชื่อ `backend` ในการ Proxy ได้?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: เพราะทั้งสองคอนเทนเนอร์เชื่อมต่ออยู่ใน Docker Network เดียวกัน ซึ่ง Docker จะมีระบบ Internal DNS ที่ช่วยให้คอนเทนเนอร์สามารถสื่อสารกันได้ผ่าน "ชื่อคอนเทนเนอร์" (Container Name) แทนการใช้หมายเลขไอพี ทำให้เราสามารถระบุชื่อ backend ในการตั้งค่า Proxy ได้โดยตรง
 
 ---
 
