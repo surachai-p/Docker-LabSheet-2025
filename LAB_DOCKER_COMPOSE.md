@@ -381,7 +381,7 @@ git version 2.43.0
 ```
 บันทึกรูปภาพผลการตรวจสอบ version
 ```
----
+--- ![alt text](image.png)
 
 #### 1.2 Clone Repository
 
