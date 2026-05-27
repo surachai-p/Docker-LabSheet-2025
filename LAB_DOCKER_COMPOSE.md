@@ -378,9 +378,7 @@ git version 2.43.0
 </details>
 
 > **📝 บันทึกผล**: 
-```
-บันทึกรูปภาพผลการตรวจสอบ version
-```
+![alt text](image.png)
 ---
 
 #### 1.2 Clone Repository
@@ -492,17 +490,21 @@ a1b2c3d4e5f6   nginx:alpine   "/docker-entrypoint.…"   2 seconds ago  Up 2 sec
 </details>
 
 **บันทึกผลการทดลอง**
-```
-บันทึกรูปผลการทดลอง คำสั่ง docker ps
-```
+![alt text](image-1.png)
 
 เปิด Browser ไปที่ **http://localhost:8080** ควรเห็นหน้า `Welcome to nginx!`
 
 **อธิบาย แต่ละส่วนของคำสั่ง docker run -d --name my-nginx -p 8080:80 nginx:alpine**
-```text
-อธิบายคำสั่งที่นี่
-
-```
+docker run
+→ ใช้สำหรับ “สร้างและรัน container ใหม่จาก image”
+-d
+→ รันแบบ background (ไม่ยึด terminal)
+--name my-nginx
+→ ตั้งชื่อ container ว่า my-nginx เพื่อเรียกใช้ง่าย
+-p 8080:80
+→ map port จากเครื่องเรา (8080) ไปยัง container (80)
+nginx:alpine
+→ image ที่ใช้รัน (Nginx เวอร์ชันเบา)
 
 
 
@@ -543,9 +545,7 @@ docker exec -it my-nginx sh
 
 **บันทึกผลการรันคำสั่ง docker exec -it และ ls /usr/share/nginx/html**
 
-   ```bash
-   บันทึกรูปภาพที่นี่
-   ```
+ ![alt text](image-2.png)
 </details>
 
 ---
@@ -564,7 +564,7 @@ docker stats my-nginx
 # กด Ctrl+C เพื่อออก
 ```
 
-> **📝 บันทึกผล**: Container ID คือ: `............` และ IP Address คือ: `............`
+> **📝 บันทึกผล**: Container ID คือ: `467dc8eb99b777c64d0f5b87595f3ee9974ff5ea70056677501bf959ac6da01f` และ IP Address คือ: `172.17.0.2`
 
 ---
 
@@ -622,40 +622,41 @@ exit
 </details>
 
 **บันทึกรูปผลการทดลอง**
-```text
-บันทึกรูปผลการทดลองที่นี่
-```
+![alt text](image-3.png)
 ---
 
 ### ❓ คำถามท้ายขั้นตอนที่ 2
 
 1. `docker ps` กับ `docker ps -a` ต่างกันอย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: docker ps  ดูเฉพาะ container ที่ กำลังรันอยู่ (running)
+docker ps -a  ดู ทุก container ทั้งหมด ทั้งที่รันอยู่ + หยุดแล้ว (stopped)
 
 2. ขนาดของ `nginx:alpine` image คือเท่าไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: 20–30 MB
 
 3. flag `--rm` ใน `docker run` มีประโยชน์ในกรณีใด?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ลบ container อัตโนมัติหลังรันเสร็จ
 
 4. `docker exec -it` ต่างจาก `docker run -it` อย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: docker run -it  สร้าง container ใหม่ แล้วเข้าไปใช้งานทันที
+docker exec -it  เข้าไปใน container ที่กำลังรันอยู่แล้ว
 
 5. ต้องการดูว่าในเครื่องมี image อะไรอยู่บ้าง จะเขียนคำสั่งอย่างไร
    ```bash
-   เขียนคำสั่งที่นี่
+   docker images
    ```
 6. ต้องการลบ image ชื่อ nginx:alpine จะต้องเขียนคำสั่งอย่างไร หากมีหลายขั้นตอนที่ต้องเขียน ให้เขียนลำดับคำสั่งให้ถูกต้อง
    ```bash
-   เขียนคำสั่งที่นี่
+   docker rmi nginx:alpine
    ```
 7. เมื่อลบ image แล้วให้ทำการ pull image กลับมาเหมือนเดิม พร้อมทำการรัน container
    ```bash
-   เขียนคำสั่งที่นี่
+   docker pull nginx:alpine
+docker run -d --name my-nginx -p 8080:80 nginx:alpine
    ```
 ---
 
@@ -791,7 +792,7 @@ COPY . .                 ← Layer นี้เปลี่ยนบ่อย �
 
 **Multi-stage Build คืออะไร?**
 ```
-ตอบคำถามที่นี่
+เทคนิคใน Docker ที่ใช้ “หลายขั้นตอน (หลาย stage)” ใน Dockerfile เดียว เพื่อให้ได้ image สุดท้ายที่ เล็กและสะอาด
 ```
 ---
 
@@ -821,7 +822,7 @@ booking-backend    1.0    abc123def456   5 seconds ago   ~200MB
 ```
 </details>
 
-> **📝 บันทึกผล**: ขนาดของ booking-backend:1.0 คือ: `............` MB 
+> **📝 บันทึกผล**: ขนาดของ booking-backend:1.0 คือ: `794` MB 
 
 ---
 
@@ -838,7 +839,9 @@ docker run -d --name backend --network booking-network -p 5000:5000 -e DB_PATH=/
 **คำถามการทดลอง**
 **อธิบายคำสั่งในส่วน -e DB_PATH=/app/data/booking.db -v $(pwd)/test-data:/app/data**
 ```
-อธิบายคำสั่งที่นี่
+-e DB_PATH=/app/data/booking.db คือการส่ง environment variable เข้า container เพื่อบอกว่าให้แอปใช้ไฟล์ database ที่ path /app/data/booking.db ข้างใน container
+
+ส่วน -v $(pwd)/test-data:/app/data คือการ mount volume เพื่อเชื่อมโฟลเดอร์ test-data ในเครื่องเราไปยัง /app/data ใน container ทำให้ไฟล์ database ที่ container ใช้ ถูกเก็บและแชร์กับเครื่อง host ได้ ไม่หายเมื่อ container หยุดทำงาน
 ```
 
 ```bash
@@ -855,8 +858,7 @@ docker rm backend
 #### เปิด web browser แล้วทดสอบเข้าที่ http://localhost:5000/api-docs
 
 **บันทึกผลการทดลอง**
-```
-บันทึกรูปผลการรัน curl http://localhost:5000
+![alt text](image-4.png)
 ```
 ---
 
@@ -864,11 +866,11 @@ docker rm backend
 
 1. `booking-backend:1.0` คืออะไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ชื่อ image ของ Docker พร้อม tag version
 
 2. ถ้าต้องการให้ ทดสอบ API ด้วย `curl http://localhost` ต้องทำอย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ต้อง “รัน server ให้เปิด port ก่อน” แล้วค่อยใช้ curl http://localhost
 
 ---
 
@@ -1021,7 +1023,7 @@ docker exec booking-frontend-test cat /etc/nginx/conf.d/nginx.conf
 docker stop booking-frontend-test && docker rm booking-frontend-test
 ```
 
-> **📝 บันทึกผล**: booking-frontend:1.0 ขนาด `............` MB | booking-backend:1.0 ขนาด `............` MB
+> **📝 บันทึกผล**: booking-frontend:1.0 ขนาด `24` MB | booking-backend:1.0 ขนาด `158` MB
 
 ---
 
@@ -1029,15 +1031,15 @@ docker stop booking-frontend-test && docker rm booking-frontend-test
 
 1. ขนาดของ `booking-frontend:1.0` เทียบกับ `booking-backend:1.0` ต่างกันอย่างไร? เพราะเหตุใด?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: booking-frontend:1.0 เล็กกว่า booking-backend:1.0 เพราะ frontend ใช้แค่ Nginx + ไฟล์ static ส่วน backend มี Node.js และ dependency หลายตัว ทำให้ image ใหญ่กว่า
 
 2. `location /api/` ใน nginx.conf ทำหน้าที่อะไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: การกำหนดว่า ถ้า request URL ขึ้นต้นด้วย /api/ ให้ Nginx จัดการตาม rule นี้
 
 3. ทำไม Frontend Container ถึงใช้ชื่อ `backend` ในการ Proxy ได้?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: เพราะว่าใน Docker มี network ภายใน (Docker network) ที่ทำให้ container คุยกันได้ด้วย “ชื่อ container” แทน IP
 
 ---
 
@@ -1154,15 +1156,22 @@ frontend
 
 1. docker-compose.yml คืออะไร มีประโยชน์อย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: ไฟล์ที่ใช้ กำหนดและจัดการหลาย container พร้อมกันในครั้งเดียว
 
 2. `restart: unless-stopped` หมายความว่าอย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: policy ของ Docker ที่กำหนดว่า container จะถูก restart อัตโนมัติ เว้นแต่เราจะสั่ง stop เอง
 
 3. Named Volume `sqlite_data` ต่างจาก Bind Mount อย่างไร? และทำไมต้องใช้กับ SQLite?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: Named Volume = Docker จัดการให้ (ปลอดภัยกว่า)
+Bind Mount = ใช้โฟลเดอร์เครื่องเรา (ยืดหยุ่นกว่า)เพราะ SQLite:
+เก็บข้อมูลเป็น “ไฟล์เดียว”
+ต้อง persist data (ห้ามหาย)
+ ถ้าไม่ mount:
+container ลบ = database หาย
+ ใช้ volume:
+container หายก็ยังมีไฟล์ DB อยู่
 
 ---
 
@@ -1314,8 +1323,8 @@ docker network inspect booking-network \
 ```
 
 > **📝 บันทึกผลการทดลอง**:
-> - IP ของ frontend: `............`
-> - IP ของ backend: `............`
+> - IP ของ frontend: `172.18.0.3`
+> - IP ของ backend: `172.18.0.2`
 
 
 ---
@@ -1342,14 +1351,13 @@ docker compose events --json 2>/dev/null | head -20
 
 1. `docker compose ps` แสดงสถานะ Service อย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: docker compose ps ใช้สำหรับ ดูสถานะของ service ทั้งหมดที่รันอยู่ใน docker-compose
 
 2. IP Address ของแต่ละ Container ในผลจาก `docker network inspect` คืออะไร?
 
-   > _คำตอบ_: ........................................................................
-
+   > _คำตอบ_: IP Address ในผล docker network inspect คือ IP ภายใน (internal IP) ที่ Docker แจกให้แต่ละ container ใน network นั้น
 3. SQLite database file (`booking.db`) ถูกสร้างใน Path ใดภายใน Container?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: SQLite database file (booking.db) จะถูกสร้างใน Path ที่กำหนดจาก DB_PATH หรือ volume mount เช่น: /app/data/booking.db
 
 ---
