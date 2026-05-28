@@ -1342,14 +1342,14 @@ docker compose events --json 2>/dev/null | head -20
 
 1. `docker compose ps` แสดงสถานะ Service อย่างไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_:แสดงรายการ service/container ที่รันอยู่ใน Docker Compose พร้อมสถานะ เช่น Up, Exited, port mapping และชื่อ container
 
 2. IP Address ของแต่ละ Container ในผลจาก `docker network inspect` คืออะไร?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: เป็น IP ภายใน Docker network (เช่น 172.18.0.x) ที่ Docker กำหนดให้แต่ละ container สำหรับใช้สื่อสารกันใน network เดียวกัน
 
 3. SQLite database file (`booking.db`) ถูกสร้างใน Path ใดภายใน Container?
 
-   > _คำตอบ_: ........................................................................
+   > _คำตอบ_: อยู่ใน path ภายใน container ตามที่ mount หรือกำหนดไว้ เช่น /app/booking.db หรือ directory ที่แอป backend กำหนดให้เก็บฐานข้อมูลไว้ใน container filesystem (ขึ้นอยู่กับ compose หรือ Dockerfile ที่ใช้)
 
 ---
